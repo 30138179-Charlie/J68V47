@@ -149,12 +149,14 @@ public class CalCalc {
         }
     }
     public static void main(String[] args) {
+        String[] choices = {"1", "2", "3", "4", "5", "6"};
         Scanner input = new Scanner(System.in);
+
 
         // USER INTERFACES, PRESENTS USERS WITH A CHOICE AND CALLS THE FUNCTIONS NEEDED
         while (true){
             System.out.println("--WELCOME TO CALCALC, PLEASE CHOOSE AN OPTION.-- \n\n1. Add calories to your counter.\n2. Add a preset item to your counter.\n3. Create a new preset meal.\n4. Reset your daily counter.\n5. Display calorie counter.\n6. Exit program\n\n");
-            System.out.print("Enter an option: ");
+            System.out.print("Enter an option " + Arrays.toString(choices) +": ");
             int userChoice = input.nextInt();
             if (userChoice == 1) {
                 addCalories();
