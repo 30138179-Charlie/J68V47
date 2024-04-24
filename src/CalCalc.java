@@ -23,7 +23,7 @@ public class CalCalc {
         Scanner input = new Scanner(System.in);
             System.out.print("Enter the name of your meal: ");
             String mealName = input.nextLine();
-            String completeMeal = "\n" + mealName;
+            String completeMeal = mealName +"\n";
             return completeMeal;
     }
 
@@ -32,7 +32,7 @@ public class CalCalc {
         Scanner input = new Scanner(System.in);
             System.out.print("Enter the number of calories in your meal per 100g: ");
             int caloriesPer100g = input.nextInt();
-            String completeCalories = "\n" + String.valueOf((caloriesPer100g / 100));
+            String completeCalories = String.valueOf((caloriesPer100g / 100)) + "\n";
             return completeCalories;
         }
 
@@ -71,14 +71,17 @@ public class CalCalc {
                 index += 1;
             }
             scanner.close();
+            // ASK THE USER FOR THEIR CHOSEN MEAL AND RETURN THE PLACE AS AN INTEGER
+            System.out.print("Enter item index: ");
+            int mealChoice = input.nextInt();
+            return mealChoice;
+
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("You haven't created any meals yet.");
+            return 0;
         }
 
-        // ASK THE USER FOR THEIR CHOSEN MEAL AND RETURN THE PLACE AS AN INTEGER
-        System.out.print("Enter item index: ");
-        int mealChoice = input.nextInt();
-        return mealChoice;
+
     }
 
     public static void addMealChoice(int mealChoice) {
@@ -92,6 +95,7 @@ public class CalCalc {
             while (mealChoice > 0) {
                 String line = scanner.nextLine();
                 mealChoice -= 1;
+
                 // TIMES THE ASSOCIATED CALORIES BY THE NUMBER OF GRAMS
                 if (mealChoice == 0) {
                     System.out.print("\n" + "How many grams are you eating: ");
@@ -102,7 +106,7 @@ public class CalCalc {
                     // TRY TO WRITE THE CALORIES TO THE COUNTER
                     try {
                         FileWriter writer = new FileWriter("counter.txt", true);
-                        writer.write("\n" + caloriesToAdd);
+                        writer.write(caloriesToAdd + "\n");
                         writer.close();
                     } catch (IOException e) {
                         System.out.println("Exception has been caught");
@@ -111,7 +115,7 @@ public class CalCalc {
             }
             scanner.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Please create a meal first." + "\n");
         }
 
     }
@@ -120,10 +124,11 @@ public class CalCalc {
         int calorieCounter = 0;
         // TRY TO ITERATE THROUGH THE COUNTER FILE AND ADD ALL ITEMS INTO A SINGLE VARIABLE TO DISPLAY THE CALORIES EATEN
         try {
+            FileWriter writer = new FileWriter("counter.txt", true);
             Scanner scanner = new Scanner(new File("counter.txt"));
 
             // ITERATING THROUGH THE FILE AND ADDING ITEMS TOGETHER
-            while (scanner.hasNextLine()) {
+            while (scanner.hasNextInt()) {
                 calorieCounter += scanner.nextInt();
 
             }
@@ -131,7 +136,9 @@ public class CalCalc {
             System.out.println("Your daily counter: " + calorieCounter + "\n");
             scanner.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Counter doesn't exist");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
